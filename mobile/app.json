@@ -1,0 +1,13 @@
+{
+  "expo": {
+    "name": "BlueLedger",
+    "slug": "blueledger-money",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "scheme": "blueledger",
+    "ios": {"supportsTablet": true, "bundleIdentifier": "app.blueledger.money"},
+    "android": {"package": "app.blueledger.money", "adaptiveIcon": {"backgroundColor": "#EEF4FF"}},
+    "plugins": ["expo-secure-store"]
+  }
+}

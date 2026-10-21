@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#3169e8" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+  <meta name="description" content="BlueLedger — your money, in clear view. Track spending, budgets, products, accounts, and net worth." />
+  <title>BlueLedger — Money, in clear view</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#dashboard" aria-label="BlueLedger home">
+        <span class="brand-mark"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7 7h10.5a6.5 6.5 0 0 1 0 13H7V7Z"/><path d="M7 18h12a5 5 0 0 1 0 10H7V18Z"/><path class="mark-cut" d="M7 14h10"/></svg></span>
+        <span class="brand-copy"><strong>blueledger</strong><small>PERSONAL FINANCE</small></span>
+      </a>
+      <div class="workspace-label">WORKSPACE <button class="workspace-switch" type="button"><span class="workspace-avatar">J</span> My finances <span class="chevron">⌄</span></button></div>
+      <nav class="main-nav" aria-label="Main navigation">
+        <p class="nav-caption">OVERVIEW</p>
+        <button class="nav-item active" data-page="dashboard"><span class="nav-icon">⌂</span>Dashboard</button>
+        <button class="nav-item" data-page="transactions"><span class="nav-icon">↔</span>Transactions</button>
+        <button class="nav-item" data-page="budgets"><span class="nav-icon">◷</span>Budgets <span class="nav-count" id="budget-nav-count">4</span></button>
+        <button class="nav-item" data-page="products"><span class="nav-icon">▦</span>Product list</button>
+        <button class="nav-item" data-page="networth"><span class="nav-icon">◈</span>Net worth</button>
+        <p class="nav-caption nav-caption-spaced">MANAGE</p>
+        <button class="nav-item" data-page="activity"><span class="nav-icon">◎</span>Access activity</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="help-card"><div class="help-orb">✦</div><strong>Small steps add up.</strong><p>Keep your money goals in view, one day at a time.</p><button type="button" class="text-link" data-page="budgets">Review your plan <span>↗</span></button></div>
+        <button class="nav-item settings-link" data-page="settings"><span class="nav-icon">⚙</span>Settings</button>
+        <div class="user-card"><div class="avatar">JD</div><div class="user-meta"><strong>Jamie Doe</strong><small>Personal account</small></div><button class="more-button" aria-label="Account menu">···</button></div>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <button class="mobile-menu" id="mobile-menu" aria-label="Open navigation">☰</button>
+        <div class="breadcrumbs"><span>My finances</span><span class="crumb-slash">/</span><strong id="crumb-current">Dashboard</strong></div>
+        <div class="top-actions">
+          <button class="icon-button search-button" aria-label="Search" id="search-open"><svg viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 4.5 4.5"/></svg></button>
+          <button class="search-wide" id="search-wide"><span>⌕</span> Search anything <kbd>⌘ K</kbd></button>
+          <button class="icon-button notification-button" aria-label="Notifications"><svg viewBox="0 0 24 24"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg><i></i></button>
+          <button class="account-button" id="account-button" type="button">Sign in</button>
+        </div>
+      </header>
+
+      <section class="page-content" id="page-content">
+        <div class="welcome-row">
+          <div><p class="eyebrow" id="today-label">TUESDAY, OCTOBER 21</p><h1 id="page-title">Good morning, Jamie <span class="wave">✦</span></h1><p class="page-subtitle" id="page-subtitle">Here’s what’s happening with your money today.</p></div>
+          <div class="welcome-actions"><button class="button button-soft" id="export-btn"><span>↓</span> Export</button><button class="button button-primary" id="add-transaction"><span class="plus">+</span> Add transaction</button></div>
+        </div>
+        <div id="sync-banner" class="sync-banner"><span class="sync-indicator"></span><span><strong>Preview mode</strong> · Your entries are saved in this browser only.</span><button id="sync-signin" type="button">Sign in to sync data ↗</button></div>
+        <div id="page-view"></div>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="modal-backdrop" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="modal-head"><div><p class="eyebrow">MONEY IN MOTION</p><h2 id="modal-title">Add a transaction</h2></div><button class="close-modal" id="modal-close" aria-label="Close">×</button></div>
+      <form id="transaction-form">
+        <div class="type-switch"><button type="button" class="type-option selected" data-type="expense">Expense</button><button type="button" class="type-option" data-type="income">Income</button></div>
+        <label class="field-label">Description<input name="description" required placeholder="What was it for?" maxlength="60" /></label>
+        <div class="form-grid"><label class="field-label">Amount<div class="money-input"><span id="currency-prefix">₱</span><input name="amount" type="number" min="0.01" step="0.01" required placeholder="0.00" /></div></label><label class="field-label">Category<select name="category"><option>Food & dining</option><option>Shopping</option><option>Transport</option><option>Housing</option><option>Health</option><option>Entertainment</option><option>Salary</option><option>Other</option></select></label></div>
+        <div class="form-grid"><label class="field-label">Date<input name="date" type="date" required /></label><label class="field-label">Account<select name="account" id="transaction-account"><option>Everyday checking</option><option>Wallet</option><option>Savings account</option></select></label></div>
+        <label class="field-label">Note <span class="optional">OPTIONAL</span><input name="note" placeholder="Add a little context" maxlength="100" /></label>
+        <button class="button button-primary submit-button" type="submit">Save transaction <span>→</span></button>
+      </form>
+    </div>
+  </div>
+  <div class="modal-backdrop" id="auth-backdrop" aria-hidden="true">
+    <div class="modal auth-modal" role="dialog" aria-modal="true" aria-labelledby="auth-title">
+      <div class="modal-head"><div><p class="eyebrow">YOUR MONEY, SECURELY YOURS</p><h2 id="auth-title">Sign in to BlueLedger</h2></div><button class="close-modal" id="auth-close" aria-label="Close">×</button></div>
+      <p class="auth-copy">Use your account to save your finances across devices. New here? Switch to create an account.</p>
+      <form id="auth-form">
+        <div id="auth-name-wrap" class="auth-name-wrap"><label class="field-label">Your name<input name="name" placeholder="Jamie Doe" maxlength="80" /></label></div>
+        <label class="field-label">Email<input name="email" type="email" autocomplete="email" required placeholder="you@example.com" /></label>
+        <label class="field-label">Password<input name="password" type="password" autocomplete="current-password" required minlength="10" placeholder="At least 10 characters" /></label>
+        <p class="auth-error" id="auth-error"></p>
+        <button class="button button-primary submit-button" id="auth-submit" type="submit">Sign in <span>→</span></button>
+      </form>
+      <button class="auth-switch" id="auth-switch" type="button">Create a new account</button>
+    </div>
+  </div>
+  <div id="toast" class="toast" role="status"></div>
+  <script src="/app.js"></script>
+</body>
+</html>
